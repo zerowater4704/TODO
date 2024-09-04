@@ -7,7 +7,9 @@ const express_1 = __importDefault(require("express"));
 const db_1 = __importDefault(require("./db"));
 const user_1 = __importDefault(require("./routes/user"));
 const post_1 = __importDefault(require("./routes/post"));
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
 // DB
 (0, db_1.default)();
 //ミドルウェア
