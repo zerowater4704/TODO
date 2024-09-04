@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import TaskList from "./components/TaskList";
+import TaskForm from "./components/TaskForm";
+import TaskDetail from "./components/TaskDetail";
 
 const App: React.FC = () => {
   return (
@@ -22,6 +24,8 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/tasks" element={<TaskList />} />
+        <Route path="/create" element={<TaskForm />} />
+        <Route path="/task/:_id" element={<TaskDetail />} />
       </Routes>
     </Router>
   );

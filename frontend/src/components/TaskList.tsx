@@ -44,7 +44,7 @@ const TaskList: React.FC = () => {
             <p>{task.description}</p>
             <p>ステータス: {task.isCompleted ? "完了" : "未完了"}</p>{" "}
             {/* ステータス表示 */}
-            <Link to={`/tasks/${task._id}`}>詳細</Link>
+            <Link to={`/task/${task._id}`}>詳細</Link>
           </li>
         ))}
       </ul>
