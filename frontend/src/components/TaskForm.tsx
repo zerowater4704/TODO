@@ -10,7 +10,12 @@ const TaskForm: React.FC = () => {
 
     try {
       const newTask = { title, description };
-      await axios.post("http://localhost:3000/api/post/", newTask);
+      const token = localStorage.getItem("token");
+      await axios.post("http://localhost:3000/api/post/", newTask, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       alert("タスクが作成できました！");
       setTitle("");
       setDescription("");

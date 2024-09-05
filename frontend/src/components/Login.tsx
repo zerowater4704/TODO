@@ -16,10 +16,17 @@ const Login: React.FC<LoginProps> = ({ setIsAuthenticated }) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/api/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:3000/api/user/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+
       setMessage("ログインが成功しました！");
       setIsAuthenticated(true);
       navigate("/");

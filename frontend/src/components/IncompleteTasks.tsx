@@ -9,22 +9,25 @@ interface Task {
   isCompleted: boolean;
 }
 
-const TaskList: React.FC = () => {
+const IncompleteTasks: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/post", {
+        const response = await axios.get("http://localhost:3000/api/post/", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        setTasks(response.data);
+        const incompleteTasks = response.data.filter(
+          (task: Task) => !task.isCompleted
+        );
+        setTasks(incompleteTasks);
         setLoading(false);
       } catch (error) {
-        console.error("タスクの取得に失敗しました:", error);
+        console.error("タスクの取得に失敗しました。", error);
         setLoading(false);
       }
     };
@@ -38,16 +41,12 @@ const TaskList: React.FC = () => {
 
   return (
     <div>
-      <h1>タスク一覧</h1>
+      <h1>未完了タスク一覧</h1>
       <ul>
         {tasks.map((task) => (
           <li key={task._id}>
-            {" "}
-            {/* ここにkeyプロパティを追加 */}
             <h2>{task.title}</h2>
             <p>{task.description}</p>
-            <p>ステータス: {task.isCompleted ? "完了" : "未完了"}</p>{" "}
-            {/* ステータス表示 */}
             <Link to={`/task/${task._id}`}>詳細</Link>
           </li>
         ))}
@@ -56,4 +55,4 @@ const TaskList: React.FC = () => {
   );
 };
 
-export default TaskList;
+export default IncompleteTasks;
