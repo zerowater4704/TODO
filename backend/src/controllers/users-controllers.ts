@@ -1,4 +1,5 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 import User from "../models/User";
 
 //新規登録
@@ -26,7 +27,15 @@ export const loginUser = async (req: Request, res: Response) => {
       return res.status(404).send("パスワードが間違っています。");
     }
 
-    return res.status(200).send("ログイン成功");
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.ACCESS_TOKEN_SECRET as string,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    return res.status(200).send({ token });
   } catch (err) {
     return res.status(500).send("サーバーエラー");
   }

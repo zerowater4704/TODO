@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.loginUser = exports.createUser = void 0;
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = __importDefault(require("../models/User"));
 //新規登録
 const createUser = async (req, res) => {
@@ -29,7 +30,10 @@ const loginUser = async (req, res) => {
         if (!validPassword) {
             return res.status(404).send("パスワードが間違っています。");
         }
-        return res.status(200).send("ログイン成功");
+        const token = jsonwebtoken_1.default.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: "1h",
+        });
+        return res.status(200).send({ token });
     }
     catch (err) {
         return res.status(500).send("サーバーエラー");

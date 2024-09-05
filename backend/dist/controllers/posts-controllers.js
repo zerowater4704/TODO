@@ -34,9 +34,10 @@ const getPosts = async (req, res) => {
 exports.getPosts = getPosts;
 //特定のpost
 const getPost = async (req, res) => {
+    var _a;
     try {
         const postId = req.params.id;
-        const post = await Post_1.default.findById(postId);
+        const post = await Post_1.default.findOne({ _id: postId, userId: (_a = req.user) === null || _a === void 0 ? void 0 : _a.id });
         if (!post) {
             return res.status(404).send("タスクがありません。");
         }

@@ -32,7 +32,7 @@ export const getPosts = async (req: Request, res: Response) => {
 export const getPost = async (req: Request, res: Response) => {
   try {
     const postId = req.params.id;
-    const post = await Post.findById(postId);
+    const post = await Post.findOne({ _id: postId, userId: req.user?.id });
     if (!post) {
       return res.status(404).send("タスクがありません。");
     }
