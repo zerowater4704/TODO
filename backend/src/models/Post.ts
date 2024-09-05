@@ -6,6 +6,7 @@ interface IPost extends Document {
   isCompleted: boolean;
   createdAt: Date;
   updatedAt: Date;
+  userId: string;
 }
 
 const postSchema: Schema = new Schema({
@@ -29,6 +30,7 @@ const postSchema: Schema = new Schema({
     type: Date,
     default: Date.now,
   },
+  userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
 });
 
 export default mongoose.model<IPost>("Post", postSchema);
