@@ -7,7 +7,16 @@ export const createUser = async (req: Request, res: Response) => {
   try {
     const newUser = new User(req.body);
     await newUser.save();
-    res.status(201).json(newUser);
+
+    const token = jwt.sign(
+      { id: newUser._id },
+      process.env.ACCESS_TOKEN_SECRET as string,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    res.status(201).json({ token });
   } catch (err) {
     res.status(400).json({ message: "会員登録にエラーがあります。" });
   }

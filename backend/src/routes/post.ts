@@ -10,10 +10,10 @@ import { authenticateToken } from "../middlewares/authenticaeToken/authenticateT
 
 const router = Router();
 
-router.post("/", createPost);
-router.get("/", getPosts);
+router.post("/", authenticateToken, createPost);
+router.get("/", authenticateToken, getPosts);
 router.get("/:id", authenticateToken, getPost);
-router.put("/:id", updatePost);
-router.delete("/:id", deletePost);
+router.put("/:id", authenticateToken, updatePost);
+router.delete("/:id", authenticateToken, deletePost);
 
 export default router;

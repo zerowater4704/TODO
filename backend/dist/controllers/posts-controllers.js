@@ -7,25 +7,34 @@ exports.deletePost = exports.updatePost = exports.getPost = exports.getPosts = e
 const Post_1 = __importDefault(require("../models/Post"));
 //post 作成
 const createPost = async (req, res) => {
+    var _a;
     const { title, description } = req.body;
     try {
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        if (!userId) {
+            return res.status(400).json({ message: "ユーザーIDが見つかりません。" });
+        }
         const newPost = new Post_1.default({
             title,
             description,
+            userId,
         });
         const savePost = await newPost.save();
         return res.status(201).json(savePost);
     }
     catch (err) {
+        console.error("エラー詳細:", err);
         return res.status(500).send("サーバーエラー");
     }
 };
 exports.createPost = createPost;
 //すべてのpost
 const getPosts = async (req, res) => {
+    var _a;
     try {
-        const post = await Post_1.default.find();
-        return res.status(201).json(post);
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        const post = await Post_1.default.find({ userId });
+        return res.status(200).json(post);
     }
     catch (err) {
         return res.status(500).send("タスクの取得に失敗しました。");
@@ -37,11 +46,14 @@ const getPost = async (req, res) => {
     var _a;
     try {
         const postId = req.params.id;
-        const post = await Post_1.default.findOne({ _id: postId, userId: (_a = req.user) === null || _a === void 0 ? void 0 : _a.id });
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        console.log("postId:", postId);
+        console.log("userId:", userId);
+        const post = await Post_1.default.findOne({ _id: postId, userId: userId });
         if (!post) {
             return res.status(404).send("タスクがありません。");
         }
-        return res.status(201).json(post);
+        return res.status(200).json(post);
     }
     catch (err) {
         return res.status(500).send("タスクの取得に失敗しました。");
@@ -67,9 +79,11 @@ const updatePost = async (req, res) => {
 exports.updatePost = updatePost;
 //post 削除
 const deletePost = async (req, res) => {
+    var _a;
     try {
         const postId = req.params.id;
-        const post = await Post_1.default.findByIdAndDelete(postId);
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        const post = await Post_1.default.findByIdAndDelete({ _id: postId, userId: userId });
         if (!post) {
             return res.status(404).send("タスクを見つかれません。");
         }

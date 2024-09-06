@@ -11,7 +11,10 @@ const createUser = async (req, res) => {
     try {
         const newUser = new User_1.default(req.body);
         await newUser.save();
-        res.status(201).json(newUser);
+        const token = jsonwebtoken_1.default.sign({ id: newUser._id }, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: "1h",
+        });
+        res.status(201).json({ token });
     }
     catch (err) {
         res.status(400).json({ message: "会員登録にエラーがあります。" });

@@ -5,15 +5,22 @@ import Post from "../models/Post";
 export const createPost = async (req: Request, res: Response) => {
   const { title, description } = req.body;
   try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(400).json({ message: "ユーザーIDが見つかりません。" });
+    }
     const newPost = new Post({
       title,
       description,
+      userId,
     });
 
     const savePost = await newPost.save();
 
     return res.status(201).json(savePost);
   } catch (err) {
+    console.error("エラー詳細:", err);
     return res.status(500).send("サーバーエラー");
   }
 };
@@ -21,8 +28,9 @@ export const createPost = async (req: Request, res: Response) => {
 //すべてのpost
 export const getPosts = async (req: Request, res: Response) => {
   try {
-    const post = await Post.find();
-    return res.status(201).json(post);
+    const userId = req.user?.id;
+    const post = await Post.find({ userId });
+    return res.status(200).json(post);
   } catch (err) {
     return res.status(500).send("タスクの取得に失敗しました。");
   }
@@ -32,12 +40,16 @@ export const getPosts = async (req: Request, res: Response) => {
 export const getPost = async (req: Request, res: Response) => {
   try {
     const postId = req.params.id;
-    const post = await Post.findOne({ _id: postId, userId: req.user?.id });
+    const userId = req.user?.id;
+
+    console.log("postId:", postId);
+    console.log("userId:", userId);
+    const post = await Post.findOne({ _id: postId, userId: userId });
     if (!post) {
       return res.status(404).send("タスクがありません。");
     }
 
-    return res.status(201).json(post);
+    return res.status(200).json(post);
   } catch (err) {
     return res.status(500).send("タスクの取得に失敗しました。");
   }
@@ -68,8 +80,9 @@ export const updatePost = async (req: Request, res: Response) => {
 export const deletePost = async (req: Request, res: Response) => {
   try {
     const postId = req.params.id;
+    const userId = req.user?.id;
 
-    const post = await Post.findByIdAndDelete(postId);
+    const post = await Post.findByIdAndDelete({ _id: postId, userId: userId });
     if (!post) {
       return res.status(404).send("タスクを見つかれません。");
     }
