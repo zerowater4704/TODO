@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  NavLink,
+} from "react-router-dom";
 import TaskForm from "./components/TaskForm";
 import TaskDetail from "./components/TaskDetail";
 import SignUp from "./components/SignUp";
@@ -15,33 +21,55 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <nav className="bg-gray-800 p-4">
+      <nav className="bg-indigo-800 p-4">
         <ul className="flex space-x-4">
           <li>
-            <Link to="/" className="text-white hover:text-gray-300">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-white bg-indigo-600 p-2 rounded"
+                  : "text-white hover:text-gray-300"
+              }
+            >
               ホーム
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/create" className="text-white hover:text-gray-300">
+            <NavLink
+              to="/create"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-white bg-indigo-600 p-2 rounded"
+                  : "text-white hover:text-gray-300"
+              }
+            >
               タスク作成
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/incomplete-tasks"
-              className="text-white hover:text-gray-300"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-white bg-indigo-600 p-2 rounded"
+                  : "text-white hover:text-gray-300"
+              }
             >
               未完了タスク
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/complete-tasks"
-              className="text-white hover:text-gray-300"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-white bg-indigo-600 p-2 rounded"
+                  : "text-white hover:text-gray-300"
+              }
             >
               完了タスク
-            </Link>
+            </NavLink>
           </li>
           {!isAuthenticated ? (
             <>
