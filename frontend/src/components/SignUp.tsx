@@ -32,39 +32,55 @@ const SignUp: React.FC<SignUpProps> = ({ setIsAuthenticated }) => {
   };
 
   return (
-    <div>
-      <h1>会員登録</h1>
-      <form onSubmit={handelSignUp}>
-        <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">登録</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
+        <h1 className="text-2xl font-bold mb-6 text-center">会員登録</h1>
+        <form onSubmit={handelSignUp} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Name:
+            </label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Email:
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Password:
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-indigo-500 text-white py-2 rounded-md hover:bg-indigo-600"
+          >
+            登録
+          </button>
+        </form>
+        {message && <p>{message}</p>}
+      </div>
     </div>
   );
 };

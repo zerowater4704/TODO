@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 interface LoginProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -65,12 +65,20 @@ const Login: React.FC<LoginProps> = ({ setIsAuthenticated }) => {
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
             />
           </div>
-          <button
-            type="submit"
-            className="w-full bg-indigo-500 text-white py-2 rounded-md hover:bg-indigo-600"
-          >
-            ログイン
-          </button>
+          <div>
+            <button
+              type="submit"
+              className="w-full bg-indigo-500 text-white py-2 rounded-md hover:bg-indigo-600"
+            >
+              ログイン
+            </button>
+            <Link
+              to="/signup"
+              className="block w-full mt-4 bg-green-500 text-white py-2 rounded-md text-center hover:bg-green-600"
+            >
+              会員登録
+            </Link>
+          </div>
         </form>
         {message && <p className="mt-4 text-center text-red-500">{message}</p>}
       </div>

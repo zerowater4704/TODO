@@ -8,6 +8,7 @@ import Home from "./components/Home";
 import IncompleteTasks from "./components/IncompleteTasks";
 import CompleteTasks from "./components/CompleteTasks";
 import LogoutButton from "./components/LogoutButton";
+import PrivateRoute from "./components/PrivateRoute";
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -64,11 +65,47 @@ const App: React.FC = () => {
       </nav>
 
       <Routes>
+        <Route
+          path="/"
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated}>
+              <Home />
+            </PrivateRoute>
+          }
+        />
         <Route path="/" element={<Home />} />
-        <Route path="/incomplete-tasks" element={<IncompleteTasks />} />
-        <Route path="/complete-tasks" element={<CompleteTasks />} />
-        <Route path="/create" element={<TaskForm />} />
-        <Route path="/task/:_id" element={<TaskDetail />} />
+        <Route
+          path="/incomplete-tasks"
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated}>
+              <IncompleteTasks />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/complete-tasks"
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated}>
+              <CompleteTasks />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/create"
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated}>
+              <TaskForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/task/:_id"
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated}>
+              <TaskDetail />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/signup"
           element={<SignUp setIsAuthenticated={setIsAuthenticated} />}

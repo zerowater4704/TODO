@@ -37,18 +37,34 @@ const TaskList: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>タスク一覧</h1>
-      <ul>
+    <div className="container mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-6">タスク一覧</h1>
+      <ul className="space-y-6">
         {tasks.map((task) => (
-          <li key={task._id}>
-            {" "}
-            {/* ここにkeyプロパティを追加 */}
-            <h2>{task.title}</h2>
-            <p>{task.description}</p>
-            <p>ステータス: {task.isCompleted ? "完了" : "未完了"}</p>{" "}
-            {/* ステータス表示 */}
-            <Link to={`/task/${task._id}`}>詳細</Link>
+          <li
+            key={task._id}
+            className="bg-white shadow-md rounded-lg p-6 transition-transform transform hover:scale-105"
+          >
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              {task.title}
+            </h2>
+            <p className="text-gray-600 mb-4">{task.description}</p>
+            <p className="text-sm font-medium mb-4">
+              ステータス:{" "}
+              <span
+                className={`${
+                  task.isCompleted ? "text-green-500" : "text-red-500"
+                } font-bold`}
+              >
+                {task.isCompleted ? "完了" : "未完了"}
+              </span>
+            </p>
+            <Link
+              to={`/task/${task._id}`}
+              className="inline-block bg-blue-500 text-white py-2 px-4 rounded-lg font-semibold transition-colors hover:bg-blue-700"
+            >
+              詳細を見る
+            </Link>
           </li>
         ))}
       </ul>

@@ -60,16 +60,44 @@ const TaskDetail: React.FC = () => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://localhost:3000/api/post/${_id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      alert("タスクが削除されました。");
+      navigate("/");
+    } catch (error) {
+      console.error("タスクの削除に失敗しました。", error);
+    }
+  };
+
   if (!task) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div>
-      <h1>{task.title}</h1>
-      <p>{task.description}</p>
-      <p>ステータス: {task.isCompleted ? "完了" : "未完了"}</p>
-      <button onClick={handleStatusChange}>
+    <div className="max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-3xl font-bold text-gray-800">{task.title}</h1>
+        <button
+          onClick={handleDelete}
+          className="py-2 px-4 rounded-lg text-white font-semibold bg-red-600 hover:bg-red-700 ml-4"
+        >
+          削除
+        </button>
+      </div>
+      <p className="text-gray-700 mb-4">{task.description}</p>
+
+      <button
+        onClick={handleStatusChange}
+        className={`w-full py-2 px-4 rounded-lg text-white font-semibold transition-colors ${
+          isCompleted
+            ? "bg-blue-500 hover:bg-blue-600"
+            : "bg-green-500 hover:bg-green-600"
+        }`}
+      >
         {isCompleted ? "未完了にする" : "完了にする"}
       </button>
     </div>
