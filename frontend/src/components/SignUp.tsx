@@ -22,7 +22,10 @@ const SignUp: React.FC<SignUpProps> = ({ setIsAuthenticated }) => {
         email,
         password,
       });
+      const token = response.data.token;
+      localStorage.setItem("token", token);
       setMessage("会員登録が成功しました！");
+
       setIsAuthenticated(true);
       navigate("/");
     } catch (error) {

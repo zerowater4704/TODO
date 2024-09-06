@@ -79,8 +79,10 @@ const TaskDetail: React.FC = () => {
 
   return (
     <div className="max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold text-gray-800">{task.title}</h1>
+      <div className="flex justify-between items-start mb-4">
+        <h1 className="text-3xl font-bold text-gray-800 flex-1 break-words">
+          {task.title}
+        </h1>
         <button
           onClick={handleDelete}
           className="py-2 px-4 rounded-lg text-white font-semibold bg-red-600 hover:bg-red-700 ml-4"

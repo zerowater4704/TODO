@@ -22,7 +22,7 @@ const Home: React.FC = () => {
       try {
         const response = await axios.get("http://localhost:3000/api/post/", {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         setTasks(response.data);
